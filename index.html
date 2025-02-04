@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SiamPower</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* เริ่มต้น CSS สำหรับการจัดการรูปลักษณ์พื้นฐาน */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        /* โลโก้ที่มุมซ้าย */
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: bold;
+            color: #fff;
+            font-size: 36px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 12px 20px;
+            background: #4caf50;
+            border-radius: 8px;
+            box-shadow: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* รายการราคาในรูปแบบ List ที่มุมขวาบน */
+        .price-list {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            font-size: 16px;
+            width: 250px;
+        }
+
+        .price-list h3 {
+            margin: 0;
+            padding-bottom: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+        }
+
+        .price-list ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .price-list li {
+            margin: 10px 0;
+            color: #333;
+            font-size: 16px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .price-list li:hover {
+            background-color: #f9f9f9;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        /* ฟอร์มการขอกู้ยืม */
+        .container {
+            width: 100%;
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            font-size: 14px;
+            color: #555;
+            margin-top: 10px;
+            display: block;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: #f9f9f9;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* การแสดงราคาหลังเลือกเวลายืม */
+        #price-display {
+            font-size: 18px;
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #4caf50;
+        }
+
+        #countdown {
+            font-size: 20px;
+            color: red;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* ช่องทางการชำระเงิน */
+        #payment-method {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            display: none; /* ซ่อนโดยเริ่มต้น */
+            text-align: center;
+        }
+
+        #payment-method h2 {
+            font-size: 20px;
+            color: #333;
+        }
+
+        .payment-option {
+            font-size: 16px;
+            margin: 10px 0;
+            color: #333;
+        }
+
+        .payment-image img {
+            width: 300px; /* เพิ่มขนาดของภาพ */
+            height: auto;
+            margin-top: 10px;
+            border: 1px solid #ccc; /* ขอบภาพ */
+            border-radius: 8px; /* มุมโค้งมน */
+        }
+    </style>
+</head>
+<body>
+    <!-- โลโก้ที่มุมซ้าย -->
+    <div class="logo">
+        SiamPower
+    </div>
+
+    <!-- รายการราคาในรูปแบบ List ที่มุมขวาบน -->
+    <div class="price-list">
+        <h3>ราคาเช่าอุปกรณ์</h3>
+        <ul>
+            <li>
+                <span>1 ชั่วโมง</span> <span>30 บาท</span>
+            </li>
+            <li>
+                <span>3 ชั่วโมง</span> <span>60 บาท</span>
+            </li>
+            <li>
+                <span>24 ชั่วโมง</span> <span>100 บาท</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <h1>แบบฟอร์มขอกู้ยืมอุปกรณ์</h1>
+        <form id="loan-form">
+            <label for="student-name">ชื่อ-สกุล:</label>
+            <input type="text" id="student-name" name="student-name" required>
+
+            <label for="student-id">รหัสนักศึกษา (เฉพาะตัวเลข):</label>
+            <input type="number" id="student-id" name="student-id" required min="1">
+
+            <label for="loan-time">ระยะเวลาในการยืม (ชม):</label>
+            <select id="loan-time" name="loan-time" required>
+                <option value="1">1 ชั่วโมง</option>
+                <option value="3">3 ชั่วโมง</option>
+                <option value="24">24 ชั่วโมง</option>
+            </select>
+
+            <label for="comments">ความคิดเห็น:</label>
+            <textarea id="comments" name="comments" rows="4" placeholder="กรุณากรอกความคิดเห็นเพิ่มเติม"></textarea>
+
+            <button type="submit">ยืนยันการยืม</button>
+        </form>
+
+        <div id="price-display">ราคาค่าชั่วโมง: 30 บาท</div>
+
+        <div id="countdown" style="font-size: 20px; color: red; text-align: center; margin-top: 20px;"></div>
+
+        <!-- ช่องทางการชำระเงินที่จะแสดงหลังการยืนยัน -->
+        <div id="payment-method">
+            <h2>ช่องทางการชำระเงิน</h2>
+            <div class="payment-option">โอนผ่านบัญชีธนาคาร: <b>ธนาคารกรุงไทย</b></div>
+            <div class="payment-option">หรือชำระผ่านระบบออนไลน์: <b>พร้อมเพย์</b></div>
+            
+            <!-- แสดงภาพของช่องทางการชำระเงิน Prompay -->
+            <div class="payment-image">
+                <img src="prompay-qr-code.jpg" alt="พร้อมเพย์ QR Code" />
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ฟังก์ชันเมื่อฟอร์มถูกส่ง
+        document.getElementById('loan-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            let studentName = document.getElementById('student-name').value;
+            let studentId = document.getElementById('student-id').value;
+            let loanTime = document.getElementById('loan-time').value;
+            let comments = document.getElementById('comments').value;
+
+            console.log('ข้อมูลการขอกู้ยืม:');
+            console.log('ชื่อ-สกุล:', studentName);
+            console.log('รหัสนักศึกษา:', studentId);
+            console.log('ระยะเวลาในการยืม:', loanTime);
+            console.log('ความคิดเห็น:', comments);
+
+            // แสดงการยืนยันการยืม
+            alert('ขอขอบคุณที่กรอกข้อมูล! ระบบจะดำเนินการต่อไป');
+
+            // แสดงช่องทางการชำระเงิน
+            document.getElementById('payment-method').style.display = 'block';
+
+            // รีเซ็ตฟอร์ม
+            document.getElementById('loan-form').reset();
+        });
+    </script>
+</body>
+</html>
